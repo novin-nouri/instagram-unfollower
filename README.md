@@ -100,4 +100,4 @@ test = Instabot(user8,pass8,id8)
 test.login()
 test.follow()
 ```
-> you **must** change **""your username""** and **"your password"**
+> you **must** change **"your username"** and **"your password"**
