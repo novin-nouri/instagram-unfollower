@@ -1,17 +1,10 @@
 from selenium import webdriver
 import time
 from selenium.webdriver.common.keys import Keys
-print("""
-               __      _ _                        
-  instagram   / _|    | | |                       
-  _   _ _ __ | |_ ___ | | | _____      _____ _ __ 
- | | | | '_ \|  _/ _ \| | |/ _ \ \ /\ / / _ \ '__|
- | |_| | | | | || (_) | | | (_) \ V  V /  __/ |   
-  \__,_|_| |_|_| \___/|_|_|\___/ \_/\_/ \___|_| by Novin.Nouri
+from print import print_
 
-Part of it,I got help from <Lazar Gugleta's> content.
-""")
-class Instabot():
+
+class Instabot:
     
     def __init__(self,username,password,id_taraf):
         self.username = username
@@ -76,11 +69,14 @@ class Instabot():
     def quit(self):
         self.driver.quit()
 
-user8 = "your username"
-pass8 = "your password"
-id8 = input("-The desired page = ")         
-ask = input("-Did you enable verification Code?[y/n] ")
-test = Instabot(user8,pass8,id8)
-#Run \|/
-test.login()
-test.follow()
+
+if __name__ == "__main__":
+    print_()
+    user8 = input("pleas enter your username= ")
+    pass8 = input("pleas enter your password= ")
+    id8 = input("-The desired page for find those= ")
+    ask = input("-Did you enable verification Code?[y/n] ")
+
+    test = Instabot(user8, pass8, id8)
+    test.login()
+    test.follow()
