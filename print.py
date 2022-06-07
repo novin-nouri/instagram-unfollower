@@ -8,3 +8,8 @@ def print_():
       \__,_|_| |_|_| \___/|_|_|\___/ \_/\_/ \___|_| by Novin.Nouri
 
     """)
+
+def print_find(not_following_back, id_taraf):
+    print(f"\n\nThese people did not follow this page({id_taraf}):")
+    for a in not_following_back:
+        print("----->  " + a)
