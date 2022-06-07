@@ -13,16 +13,27 @@ class Instabot:
         self.id_taraf = id_taraf
         self.driver = webdriver.Chrome()
 
+    def _verification_code(self):
+        sms = input("\n-SMS Verification Code(please check your phone) = ")
+        smsf = self.driver.find_element_by_xpath("//input"
+                                                 "[@name='verificationCode']")
+        smsf.send_keys(sms)
+        self.driver.find_element_by_xpath("//button[@type='button']").click()
+        # Save pass or not now
+        time.sleep(random.randint(8, 10))
+        self.driver.find_element_by_xpath("//*[@id='react-root']/section/" 
+                                          "main/div/div/div/div/button").click()
+
     def login(self):
         # The desired page
         self.driver.get("https://www.instagram.com/{}/".format(self.id_taraf))
         time.sleep(random.randint(2, 5))
         self.driver.find_element_by_xpath("//button[@type='button']").click()
-        user_name = self.driver.find_element_by_xpath("//input" \ 
+        user_name = self.driver.find_element_by_xpath("//input"
                                                       "[@name='username']")
         user_name.send_keys(self.username)
         time.sleep(random.randint(2, 5))
-        pass_word = self.driver.find_element_by_xpath("//input" \ 
+        pass_word = self.driver.find_element_by_xpath("//input"
                                                       "[@name='password']")
         pass_word.send_keys(self.password + Keys.ENTER)
         # Ask for sms verification
@@ -30,29 +41,22 @@ class Instabot:
         if ask == "y":
             self._verification_code()
 
-    def _verification_code(self):
-        sms = input("\n-SMS Verification Code(please check your phone) = ")
-        smsf = self.driver.find_element_by_xpath("//input" \ 
-                                                 "[@name='verificationCode']")
-        smsf.send_keys(sms)
-        self.driver.find_element_by_xpath("//button[@type='button']").click()
-        # Save pass or not now
-        time.sleep(random.randint(8, 10))
-        self.driver.find_element_by_xpath("//*[@id='react-root']/section/" \ 
-                                          "main/div/div/div/div/button").click()
-
     def following_section(self):
         time.sleep(4)
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/" \ 
-                                          "div/header/section/ul/li[3]/a").click()
+        self.driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/div/" 
+                                          "div[1]/div/div/div[1]/div[1]/"
+                                          "section/main/div/header/section/"
+                                          "ul/li[3]/a/div").click()
         scrol_aval1_dovom2 = 1  # tozih dar paein bakhshe _get_names()
         following = self._get_names(scrol_aval1_dovom2)  # chon scrol following ba follower fargh dare (xpath) an
         return following
 
     def followers_section(self):
         time.sleep(4)
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/" \ 
-                                          "div/header/section/ul/li[2]/a").click()
+        self.driver.find_element_by_xpath("/html/body/div[1]/div/div[1]/div/"
+                                          "div[1]/div/div/div[1]/div[1]/"
+                                          "section/main/div/header/"
+                                          "section/ul/li[2]/a/div").click()
         time.sleep(random.randint(5, 7))
         scrol_aval1_dovom2 = 2
         followers = self._get_names(scrol_aval1_dovom2)
@@ -76,17 +80,22 @@ class Instabot:
 
     # scrol and get page id
     def _get_names(self, scrol_box_tedad):
+        scrol_following = "//*[@id='mount_0_0_zp']/div/div[1]/div/" \ 
+                          "div[2]/div/div/div[1]/div/div[2]/div/" \ 
+                          "div/div/div/div/div/div/div[3]"
+        scrol_followers = "//*[@id='mount_0_0_zp']/div/div[1]/div/" \ 
+                          "div[2]/div/div/div[1]/div/div[2]/div/" \ 
+                          "div/div/div/div/div/div/div[2]"
+        close_box = "/html/body/div[1]/div/div[1]/div/div[2]/div/" \ 
+                    "div/div[1]/div/div[2]/div/div/div/div/div/div/" \ 
+                    "div/div[1]/div/div[3]/div/button/div/svg/polyline"
         time.sleep(random.randint(3, 5))
         # morabae follow va following
         # scro_aval... : in bakhsh baraye ine ke XPATH scroll box bakhsh following va followers fargh darad.agar 1 bashad yani following va agar 2 bashad yani follower
         if scrol_box_tedad == 1:
-            scroll_box = self.driver.find_element_by_xpath("/html/body/" \ 
-                                                           "div[5]/div/" \ 
-                                                           "div/div[3]")
+            scroll_box = self.driver.find_element_by_xpath(scrol_following)
         elif scrol_box_tedad == 2:
-            scroll_box = self.driver.find_element_by_xpath("/html/body/" \ 
-                                                           "div[5]/div/" \ 
-                                                           "div/div[2] ")
+            scroll_box = self.driver.find_element_by_xpath(scrol_followers)
         # scroll_box = self.driver.find_element_by_xpath("/html/body/div[5]/div/div/div[3]")
 
         last_ht, ht = 0, 1
@@ -101,8 +110,7 @@ class Instabot:
         links = scroll_box.find_elements_by_tag_name("a")
         names = [name.text for name in links if name.text != '']
         # zarbdar   /html/body/div[4]/div/div/div[1]/div/div[2]/button
-        self.driver.find_element_by_xpath("/html/body/div[5]/div/div/" \ 
-                                          "div[1]/div/div[2]/button").click()
+        self.driver.find_element_by_xpath(close_box).click()
         return names
 
     def quit(self):
