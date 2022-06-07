@@ -1,16 +1,23 @@
 from selenium import webdriver
-import time
 from selenium.webdriver.common.keys import Keys
+import time
 from print import print_
 
 
 class Instabot:
     
-    def __init__(self,username,password,id_taraf):
+    def __init__(self, username, password, id_taraf):
         self.username = username
         self.password = password
         self.id_taraf = id_taraf
         self.driver = webdriver.Chrome()
+
+    def verification_code(self):
+        sms = input("\n-SMS Verification Code(please check your phone) = ")
+        smsf = self.driver.find_element_by_xpath(
+            "//input[@name='verificationCode']")
+        smsf.send_keys(sms)
+        self.driver.find_element_by_xpath("//button[@type='button']").click()
 
     def login(self):
         #The desired page
@@ -25,21 +32,12 @@ class Instabot:
         #ask & sms verification
         time.sleep(5)
         if ask == "y": 
-            sms = input("\n-SMS Verification Code(please check your phone) = ")
-            smsf = self.driver.find_element_by_xpath("//input[@name='verificationCode']") 
-            smsf.send_keys(sms)
-            self.driver.find_element_by_xpath("//button[@type='button']").click()
-      
+            self.verification_code()
+
     def follow(self):
         print("\n\n-Please wait a moment...\n")
-        #following 
-        time.sleep(5)
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/ul/li[3]/a").click()
-        following = self._get_names()
-        #follower
-        time.sleep(4)
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/ul/li[2]/a").click()
-        followers = self._get_names()
+        following = self.check_following()
+        followers = self.check_follwers()
         #find 
         not_following_back = [user for user in following if user not in followers]
         #print(not_following_back)
@@ -48,6 +46,23 @@ class Instabot:
             print("----->  " + a) 
 
     #scrol and get page id
+
+    def check_following(self):
+        # following
+        time.sleep(5)
+        self.driver.find_element_by_xpath(
+            "/html/body/div[1]/section/main/div/header/section/ul/li[3]/a").click()
+        following = self._get_names()
+        return following
+
+    def check_follwers(self):
+        # follower
+        time.sleep(4)
+        self.driver.find_element_by_xpath(
+            "/html/body/div[1]/section/main/div/header/section/ul/li[2]/a").click()
+        followers = self._get_names()
+        return followers
+
     def _get_names(self):
         time.sleep(2)
         #scroll_box and find tag name("a")
