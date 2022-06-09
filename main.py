@@ -33,15 +33,20 @@ class Instabot:
         # agar error dar vorod etelat shdo in ra comment kon
         # bayad ye if barash dorost konam khodesh tashkhis  bede
         # self.driver.find_element_by_xpath("//button[@type='button']").click()
-
-        time.sleep(random.randint(2, 4))
         user_name = self.driver.find_element_by_xpath("//input"
                                                       "[@name='username']")
-        user_name.send_keys(self.username)
-        time.sleep(random.randint(2, 5))
         pass_word = self.driver.find_element_by_xpath("//input"
                                                       "[@name='password']")
-        pass_word.send_keys(self.password + Keys.ENTER)
+        time.sleep(random.randint(2, 4))
+        if user_name and pass_word:
+            user_name.send_keys(self.username)
+            time.sleep(random.randint(2, 5))
+            pass_word.send_keys(self.password + Keys.ENTER)
+        else:
+            self.driver.find_element_by_xpath("//button[@type='button']").click()
+            user_name.send_keys(self.username)
+            time.sleep(random.randint(2, 5))
+            pass_word.send_keys(self.password + Keys.ENTER)
         # Ask for sms verification
         time.sleep(random.randint(5, 6))
         if ask == "y":
@@ -103,16 +108,18 @@ class Instabot:
         time.sleep(random.randint(3, 5))
         # morabae follow va following
         # scro_aval... : in bakhsh baraye ine ke XPATH scroll box bakhsh following va followers fargh darad.agar 1 bashad yani following va agar 2 bashad yani follower
-        if scrol_box_tedad == 1:
-            # scroll_box = self.driver.find_element_by_xpath(scrol_following)
-            scroll_box = self.driver.find_element_by_xpath("//div"
-                                                           "[@class='_aano']")
-        elif scrol_box_tedad == 2:
-            # scroll_box = self.driver.find_element_by_xpath(scrol_followers)
-            scroll_box = self.driver.find_element_by_xpath("//div"
-                                                           "[@class='_aano']")
+        # if scrol_box_tedad == 1:
+        #     # scroll_box = self.driver.find_element_by_xpath(scrol_following)
+        #     scroll_box = self.driver.find_element_by_xpath("//div"
+        #                                                    "[@class='_aano']")
+        # elif scrol_box_tedad == 2:
+        #     # scroll_box = self.driver.find_element_by_xpath(scrol_followers)
+        #     scroll_box = self.driver.find_element_by_xpath("//div"
+        #                                                    "[@class='_aano']")
+        scroll_box = self.driver.find_element_by_xpath("//div"
+                                                       "[@class='_aano']")
 
-        time.sleep(5)
+        time.sleep(random.randint(5, 7))
         # height variable
         last_ht, ht = 0, 1
         while last_ht != ht:
