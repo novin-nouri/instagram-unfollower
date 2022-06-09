@@ -10,6 +10,7 @@ def print_():
     """)
 
 def print_find(not_following_back, id_taraf):
+    # This part print those who unfollowed your page
     print(f"\n\nThese people did not follow this page({id_taraf}):")
     for a in not_following_back:
         print("----->  " + a)
