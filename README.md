@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/Noviin78/instagram-unfollower?color=orange)
+
 # instagram-unfollower
 
 This app shows you id of people you have followed in instagram but they have not followed you.<br />you can even check it for your friends and find out who  have not followed your friend's.
