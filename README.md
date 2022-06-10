@@ -2,7 +2,7 @@
 
 # instagram-unfollower
 
-This app shows you id of people you have followed in instagram but they have not followed you.<br />you can even check it for your friends and find out who  have not followed your friend's.
+This app shows you the people's id who you have followed in instagram but they have not followed you.<br />you can even check it for your friends and find out who  have not followed your friend's.
 
 ## Installation & Requirements
 - `pip install selenium` and download a [Drivers](https://pypi.org/project/selenium/) specific to your browser And put it in directory(where the files are).
