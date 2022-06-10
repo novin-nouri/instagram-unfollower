@@ -6,6 +6,7 @@ import pyautogui
 
 
 class Insta:
+    """Class to find who unfollowed you"""
 
     def __init__(self, username, password, desired_page, verification):
         self.username = username
@@ -39,6 +40,7 @@ class Insta:
         time.sleep(random.randint(2, 3))
 
     def _verification_code(self):
+        # For those who have enable sms verification from setting
         sms = input("\n-SMS Verification Code(please check your phone) = ")
         smsf = self.driver.find_element_by_xpath("//input"
                                                  "[@name='verificationCode']")
