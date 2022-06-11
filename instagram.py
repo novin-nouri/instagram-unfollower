@@ -16,9 +16,7 @@ class Insta:
         self.driver = webdriver.Chrome()
 
     def __repr__(self):
-        return f"{self.__class__.__name__}" \
-               f"({self.username!r}, {self.password!r}, " \
-               f"{self.desired_page!r}, {self.verification!r})"
+        return f"{self.__class__.__name__!r}({self.__dict__!r})"
 
     def login(self):
         self.driver.get("https://www.instagram.com/")
