@@ -1,3 +1,4 @@
+import time
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
@@ -103,9 +104,9 @@ class FirstScreen:
             second_screen = SecondScreen(root_)
             second_screen.screen()
             root_.mainloop()
-
-        insta.login()
-        find_unfollowed = insta.find()
+        else:
+            insta.login()
+            find_unfollowed = insta.find()
 
 
 class SecondScreen(FirstScreen):
@@ -135,7 +136,12 @@ class SecondScreen(FirstScreen):
 
     def get_code(self):
         get_code_ = self.entry_code.get()
-        print(get_code_)
+        with open("smscode.txt", "w") as f:
+            f.write(get_code_)
+            # self.master.destroy()
+            insta.login()
+            find_unfollowed = insta.find()
+
 
 
 if __name__ == "__main__":
