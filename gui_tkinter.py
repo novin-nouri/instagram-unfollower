@@ -2,7 +2,8 @@ from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
 from generate import Generate
-# from instagram import Insta
+
+
 # # "340x492"
 
 
@@ -75,7 +76,7 @@ class FirstScreen:
         self.radio2.place(x=282, y=404)
 
     def _submit_button(self):
-        submit = ttk.Button(self.master, text="Search",
+        submit = ttk.Button(self.master, text="Confirm",
                             command=self._submit_command)
         submit.place(x=120, y=445)
 
@@ -88,20 +89,53 @@ class FirstScreen:
         else:
             get_sms = "n"
         get_list = [get_user, get_pass, get_desired, get_sms]
-        # self.create_exel(get_list)
+        self.master.destroy()
+
         self.insta(get_list)
 
-    # # @staticmethod
-    # def create_exel(self, inforamtion_list):
-    #     generate = Generate(inforamtion_list)
-    #     generate.create_exel()
-    #     self.master.destroy()
     def insta(self, input_list):
+        from instagram import Insta
         insta = Insta(username=input_list[0], password=input_list[1],
                       desired_page=input_list[2],
                       verification=input_list[3])
+        if insta.verification == "y":
+            root_ = Tk()
+            second_screen = SecondScreen(root_)
+            second_screen.screen()
+            root_.mainloop()
+
         insta.login()
         find_unfollowed = insta.find()
+
+
+class SecondScreen(FirstScreen):
+
+    def __init__(self, master):
+        super().__init__(master)
+        self.master.geometry("270x295")
+        self.add_logo()
+
+    def screen(self):
+        # image
+        self.lock_image()
+        text = "Enter the code they sent\n" + 7 * " " + "to your number"
+        ttk.Label(self.master, text=text).pack(pady=0)
+        self.entry_code = ttk.Entry(self.master, width=11)
+        self.entry_code.pack(pady=10)
+        submit_code = ttk.Button(self.master, text="Confirm", command=self.get_code).pack(pady=10)
+
+    @staticmethod
+    def lock_image():
+        image = Image.open("sms.png")
+        img = ImageTk.PhotoImage(image)
+        # create label and add resize image
+        label1 = Label(image=img)
+        label1.image = img
+        label1.pack(pady=20)
+
+    def get_code(self):
+        get_code_ = self.entry_code.get()
+        print(get_code_)
 
 
 if __name__ == "__main__":

@@ -39,7 +39,7 @@ class Insta:
 
     def _verification_code(self):
         # For those who have enable sms verification from setting
-        sms = input("\n-SMS Verification Code(please check your phone) = ")
+        # sms = input("\n-SMS Verification Code(please check your phone) = ")
         smsf = self.driver.find_element_by_xpath("//input"
                                                  "[@name='verificationCode']")
         smsf.send_keys(sms)
