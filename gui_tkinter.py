@@ -1,6 +1,9 @@
 from tkinter import *
 from tkinter import ttk
 from PIL import ImageTk, Image
+from generate import Generate
+# from instagram import Insta
+# # "340x492"
 
 
 class FirstScreen:
@@ -84,6 +87,21 @@ class FirstScreen:
             get_sms = "y"
         else:
             get_sms = "n"
+        get_list = [get_user, get_pass, get_desired, get_sms]
+        # self.create_exel(get_list)
+        self.insta(get_list)
+
+    # # @staticmethod
+    # def create_exel(self, inforamtion_list):
+    #     generate = Generate(inforamtion_list)
+    #     generate.create_exel()
+    #     self.master.destroy()
+    def insta(self, input_list):
+        insta = Insta(username=input_list[0], password=input_list[1],
+                      desired_page=input_list[2],
+                      verification=input_list[3])
+        insta.login()
+        find_unfollowed = insta.find()
 
 
 if __name__ == "__main__":
