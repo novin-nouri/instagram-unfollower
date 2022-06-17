@@ -97,16 +97,22 @@ class FirstScreen:
     def insta(self, input_list):
         from instagram import Insta
         insta = Insta(username=input_list[0], password=input_list[1],
-                      desired_page=input_list[2],
-                      verification=input_list[3])
+                      desired_page=input_list[2], verification=input_list[3])
         if insta.verification == "y":
+            insta.login()
             root_ = Tk()
             second_screen = SecondScreen(root_)
             second_screen.screen()
             root_.mainloop()
+            insta._verification_code()
+            find_unfollowed = insta.find()
         else:
             insta.login()
             find_unfollowed = insta.find()
+        root__ = Tk()
+        third_screen = ThirdScreen(root__, find_unfollowed)
+        third_screen.screen()
+        root__.mainloop()
 
 
 class SecondScreen(FirstScreen):
@@ -139,9 +145,32 @@ class SecondScreen(FirstScreen):
         with open("smscode.txt", "w") as f:
             f.write(get_code_)
             # self.master.destroy()
-            insta.login()
-            find_unfollowed = insta.find()
+        self.master.destroy()
 
+
+class ThirdScreen(FirstScreen):
+
+    def __init__(self, master, find_unfollowed):
+        super().__init__(master)
+        self.find_unfollowed = find_unfollowed
+        self.master.geometry("340x492")     # ("270x295")
+        self.add_logo()
+
+    def screen(self):
+        text = f"These page's id didn't follow you:"
+        seperate_line2 = ttk.Label(self.master, text=text)  # , foreground="#616161, e6e6e6"
+        seperate_line2.place(x=10, y=10)
+
+        s = Scrollbar(self.master)
+        text = Text(self.master, height=40, width=50, foreground="#2f2f2f")
+        s.pack(side=RIGHT, fill=Y)
+        text.pack(padx=10, pady=40)
+        s.config(command=text.yview)
+        text.config(yscrollcommand=s.set)
+        for num, id_ in enumerate(self.find_unfollowed):
+            word = f"{num}-{id_}"
+            text.insert(END, word)
+            text.insert(END, "\n")
 
 
 if __name__ == "__main__":
