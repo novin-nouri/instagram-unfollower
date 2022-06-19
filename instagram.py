@@ -20,6 +20,7 @@ class Insta:
 
     def login(self):
         self.driver.get("https://www.instagram.com/")
+
         time.sleep(random.randint(2, 5))
         user_name = self.driver.find_element_by_xpath("//input"
                                                       "[@name='username']")
@@ -29,22 +30,32 @@ class Insta:
                                                       "[@name='password']")
         pass_word.send_keys(self.password + Keys.ENTER)
         time.sleep(random.randint(5, 6))
+        # pyautogui.hotkey("win", "d") # for minimize chorm
         # Ask for sms verification(if enable the sms verification)
-        if self.verification == "y":
-            self._verification_code()
-        self._save_pass()
-        time.sleep(random.randint(2, 3))
-        self.driver.get(f"https://www.instagram.com/{self.desired_page}/")
-        time.sleep(random.randint(2, 3))
+        # if self.verification == "y":
+        #     self._verification_code()
+        if self.verification == "n":
+            self._save_pass()
+            time.sleep(random.randint(2, 3))
+            self.driver.get(f"https://www.instagram.com/{self.desired_page}/")
+            time.sleep(random.randint(2, 3))
 
     def _verification_code(self):
         # For those who have enable sms verification from setting
         # sms = input("\n-SMS Verification Code(please check your phone) = ")
+        with open("smscode.txt", "r") as f:
+            sms = f.read()
         smsf = self.driver.find_element_by_xpath("//input"
                                                  "[@name='verificationCode']")
         smsf.send_keys(sms)
         time.sleep(random.randint(2, 3))
         self.driver.find_element_by_xpath("//button[@type='button']").click()
+        #
+        #edame tabe ghabl
+        self._save_pass()
+        time.sleep(random.randint(2, 3))
+        self.driver.get(f"https://www.instagram.com/{self.desired_page}/")
+        time.sleep(random.randint(2, 3))
 
     def _save_pass(self):
         # This functioin close (save pass or not now) box
@@ -89,6 +100,7 @@ class Insta:
         names = self._separate_names(scroll_box)
         time.sleep(2)
         # Close scrol box
+        # self.driver.find_element_by_xpath("//button[@type='button']").click()
         pyautogui.press('esc')
         return names
 

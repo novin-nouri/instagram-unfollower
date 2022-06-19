@@ -1,6 +1,5 @@
 from tkinter import *
 from tkinter import ttk
-from tkinter.tix import *
 from PIL import ImageTk, Image
 from instagram import Insta
 
@@ -10,8 +9,9 @@ class FirstScreen:
     def __init__(self, master):
         self.master = master
         self.master.title("Instagram unfollower")
-        self.master.geometry("375x580")        # ("340x492")
+        self.master.geometry("375x580")
         self.master.resizable(False, False)
+        self.master.attributes('-topmost', 'true')
 
     def add_logo(self):
         logo = PhotoImage(file="icon.png")
@@ -74,11 +74,12 @@ class FirstScreen:
         self.radio2.place(x=69, y=488)
 
     def _submit_button(self):
-        submit = ttk.Button(self.master, text="Confirm",
-                            command=self._submit_command)
+        submit = ttk.Button(self.master, text="Confirm", command=self._submit_command)
         submit.place(x=120, y=527)
 
     def _submit_command(self):
+        self.waiting_label()
+
         get_user = self.entry_user.get()
         get_pass = self.entry_pass.get()
         get_desired = self.entry_desired.get()
@@ -87,9 +88,24 @@ class FirstScreen:
         else:
             get_sms = "n"
         get_list = [get_user, get_pass, get_desired, get_sms]
-        # self.master.destroy()
-
         self.insta(get_list)
+
+    def waiting_label(self):
+        waiting = ttk.Label(self.master, text=" " * 30, font=("Arial", 15),
+                            foreground="#616161")  # @ width=100
+        waiting.place(x=105, y=525, height=30)
+        waiting = ttk.Label(self.master, text="   waiting...   ",
+                            font=("Arial", 15),
+                            foreground="#616161")  # @ width=100
+        waiting.place(x=105, y=531, height=30)
+        self.master.update()
+
+    def finish_label(self):
+        finish = ttk.Label(self.master, text=" " * 30, font=("Arial", 15), foreground="#616161")
+        finish.place(x=105, y=525, height=30)
+        finish = ttk.Label(self.master, text="       finish   ", font=("Arial", 15), foreground="#616161")  # @ width=100
+        finish.place(x=105, y=531, height=30)
+        self.master.update()
 
     def insta(self, input_list):
         insta = Insta(username=input_list[0], password=input_list[1],
@@ -103,16 +119,21 @@ class FirstScreen:
         else:
             insta.login()
             find_unfollowed = insta.find()
-        third_screen = ThirdScreen(self.master, find_unfollowed)
+        third_screen = ThirdScreen(self.master, insta.desired_page)
         third_screen.screen()
+        third_screen.show_id(find_unfollowed)
+        self.finish_label()
 
 
 class SecondScreen(FirstScreen):
 
     def __init__(self, master):
         super().__init__(master)
+        # self.progress_bar(progreesbar_type="stop")
         self.toplevel = Toplevel(master)
         self.toplevel.geometry("270x295")
+        # self.toplevel.wm_transient(master)
+        self.toplevel.attributes('-topmost', 'true') # To make a window stay in front of others
 
     def add_logo2(self):
         logo = PhotoImage(file="icon.png")
@@ -142,46 +163,49 @@ class SecondScreen(FirstScreen):
             f.write(get_code_)
             # self.master.destroy()
         self.toplevel.destroy()
+        # messagebox.showinfo("Tip", "please patient and dont click anything")
 
 
 class ThirdScreen(FirstScreen):
 
-    def __init__(self, master, find_unfollowed):
+    def __init__(self, master, desired_page):
         super().__init__(master)
+        self.desired_page = desired_page
         self.toplevel3 = Toplevel(master)
-        self.find_unfollowed = find_unfollowed
         self.toplevel3.geometry("375x580")     # ("270x295")
+        self.toplevel3.attributes('-topmost', 'true')
+        self.add_logo3()
+
+    def screen(self):
+
         self.add_logo3()
 
     def add_logo3(self):
         logo = PhotoImage(file="icon.png")
         self.toplevel3.iconphoto(False, logo)
 
-    def screen(self):
-        self.add_logo3()
-        text = f"These page's id didn't follow you:"
+    def show_id(self, find_unfollowed):
+        text = f"These people didn't follow desired page:"
         seperate_line2 = ttk.Label(self.toplevel3, text=text)  # , foreground="#616161, e6e6e6"
-        seperate_line2.place(x=10, y=10)
-
+        seperate_line2.place(x=11, y=15)
         s = Scrollbar(self.toplevel3)
-        text = Text(self.toplevel3, height=40, width=50, foreground="#2f2f2f")
+        text = Text(self.toplevel3, height=23, width=27, foreground="#2f2f2f")
         s.pack(side=RIGHT, fill=Y)
-        text.pack(padx=10, pady=40)
+        text.place(x=12, y=50)
         s.config(command=text.yview)
         text.config(yscrollcommand=s.set)
-        for num, id_ in enumerate(self.find_unfollowed):
+        for num, id_ in enumerate(find_unfollowed):
             word = f"{num}-{id_}"
             text.insert(END, word)
             text.insert(END, "\n")
-        self.master.destroy()
 
 
-if __name__ == "__main__":
-    root = Tk()
-
-    first_screen = FirstScreen(root)
-    first_screen.add_logo()
-    first_screen.add_image()
-    first_screen.information()
-
-    root.mainloop()
+# if __name__ == "__main__":
+#     root = Tk()
+#
+#     first_screen = FirstScreen(root)
+#     first_screen.add_logo()
+#     first_screen.add_image()
+#     first_screen.information()
+#
+#     root.mainloop()

@@ -1,21 +1,13 @@
-from instagram import Insta
-from print import print_, print_find
-from generate import Generate
+from tkinter import *
+from gui_tkinter import FirstScreen
 
 
-print_()
-user = input("pleas enter your username= ")
-pass_ = input("pleas enter your password= ")
-desired = input("-The desired page for find those= ")
-ask = input("-Did you enable verification Code?[y/n] ")
+if __name__ == "__main__":
+    root = Tk()
 
-insta = Insta(username=user, password=pass_, desired_page=desired,
-              verification=ask)
-insta.login()
-find_unfollowed = insta.find()
+    first_screen = FirstScreen(root)
+    first_screen.add_logo()
+    first_screen.add_image()
+    first_screen.information()
 
-print_find(find_unfollowed, insta.desired_page)
-
-txt = Generate(page_id=insta.desired_page, unfollowed=find_unfollowed)
-txt.write_txt()
-txt.show_txt()
+    root.mainloop()
