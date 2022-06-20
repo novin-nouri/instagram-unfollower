@@ -5,6 +5,7 @@
 ***
 
 ![GitHub](https://img.shields.io/github/license/Noviin78/instagram-unfollower?color=orange)
+[![Python v3](https://img.shields.io/badge/python-v3-orange.svg)](https://www.python.org/downloads/release/python-360/)
 
 ## Description
 
