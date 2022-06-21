@@ -13,7 +13,6 @@ This app shows you the people's id who you have followed in instagram but they h
 
 ### Installation & Requirements
 - `pip install selenium` and download a [Drivers](https://pypi.org/project/selenium/) specific to your browser And put it in directory(where the files are).
-- `pip install tk`
 - `pip install Pillow`
 - `pip install pyautogui`
 
