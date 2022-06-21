@@ -1,103 +1,32 @@
-# instagram-unfollower
-Part of it,I got help from [Lazar Gugleta's](https://towardsdatascience.com/how-to-make-instagram-unfollower-tool-with-python-ac04b6b05251) content.
+<p align="center">
+    <img src="files/picture.png" alt="instagram unfollower" width="500" height="202"/>
+</p>
 
-## Description:
-- **first**,install [Selenium](https://pypi.org/project/selenium/)
-- **import**:
-```python
-from selenium import webdriver
+***
 
-import time
+![GitHub](https://img.shields.io/github/license/Noviin78/instagram-unfollower?color=orange)
+[![Python v3](https://img.shields.io/badge/python-v3-orange.svg)](https://www.python.org/downloads/release/python-360/)
 
-from selenium.webdriver.common.keys import Keys
-```
-- **making class**:
-```python
-class Instabot():
-    
-    def __init__(self,username,password,id_taraf):
-        self.username = username
-        self.password = password
-        self.id_taraf = id_taraf
-        self.driver = webdriver.Chrome()
-```
-> id_taraf = The desired page
-- **Login**:
-```python
-   def login(self):
-        #The desired page
-        self.driver.get("https://www.instagram.com/{}/".format(self.id_taraf))
-        #login
-        time.sleep(2)
-        self.driver.find_element_by_xpath("//button[@type='button']").click()
-        user_name = self.driver.find_element_by_xpath("//input[@name='username']")
-        user_name.send_keys(self.username)
-        pass_word = self.driver.find_element_by_xpath("//input[@name='password']")
-        pass_word.send_keys(self.password + Keys.ENTER)
-```
+## Description
 
-- **ask & sms verification** :
-> if you enable verification Code,You **must** add this section.
-```python
-        time.sleep(5)
-        if ask == "y": 
-            sms = input("\n-SMS Verification Code(please check your phone) = ")
-            smsf = self.driver.find_element_by_xpath("//input[@name='verificationCode']") 
-            smsf.send_keys(sms)
-            self.driver.find_element_by_xpath("//button[@type='button']").click()        
-```
-- **find**:
-```python
-    def follow(self):
-        #following 
-        time.sleep(5)
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/ul/li[3]/a").click()
-        following = self._get_names()
-        #follower
-        time.sleep(4)
-        self.driver.find_element_by_xpath("/html/body/div[1]/section/main/div/header/section/ul/li[2]/a").click()
-        followers = self._get_names()
-        #find 
-        not_following_back = [user for user in following if user not in followers]
-        #print(not_following_back)
-        print("\n\nThese people did not follow this page({}):".format(self.id_taraf))
-        for a in not_following_back:
-            print("----->  " + a) 
-```   
-- **scrol and get page id**:
-```python
-    def _get_names(self):
-        time.sleep(2)
-        #scroll_box and find tag name("a")
-        scroll_box = self.driver.find_element_by_xpath("/html/body/div[4]/div/div[2]")
-        last_ht,ht = 0,1
-        while last_ht != ht:
-            last_ht = ht
-            time.sleep(2)
-            ht = self.driver.execute_script("""
-                   arguments[0].scrollTo(0,arguments[0].scrollHeight);
-                   return arguments[0].scrollHeight;
-                   """,scroll_box)
-        links = scroll_box.find_elements_by_tag_name("a")
-        names = [name.text for name in links if name.text != '']
-        #close scroll_box
-        self.driver.find_element_by_xpath("/html/body/div[4]/div/div[1]/div/div[2]/button").click()
-        return names
-```        
-- **quit**:
-```python
-    def quit(self):
-        self.driver.quit()
-```
-- **RUN**:
-```python
-user8 = "your username"
-pass8 = "your password"
-id8 = input("-The desired page = ")         
-ask = input("-Did you enable verification Code?[y/n] ")
-test = Instabot(user8,pass8,id8)
-#Run \|/
-test.login()
-test.follow()
-```
-> you **must** change **"your username"** and **"your password"**
+This app shows you the people's id who you have followed in instagram but they have not followed you.<br />you can even check it for your friends and find out who  have not followed your friend's.<br />we use [selenium](https://pypi.org/project/selenium/) package for instagram and use [tkinter](https://docs.python.org/3/library/tkinter.html) package for GUI(Graphical user interface).
+
+### Installation & Requirements
+- `pip install selenium` and download a [Drivers](https://pypi.org/project/selenium/) specific to your browser And put it in directory(where the files are).
+- `pip install tkinter`
+- `pip install Pillow`
+- `pip install pyautogui`
+
+### How to use it
+1. execute `python main.py` in cmd.
+2. enter username and password and ... 
+3. if you're enable the **sms verification** for your instagram, instagram send code for your phone and type it in second screen, **don't** type it in your browser.
+4. after sms verification, click on the browser that opened.
+5. and wait for the third screen that contains the id to come to you.
+
+### Screenshot
+<p align="center">
+    <img src="files/screenshots/first.jpg" alt="first" width="200" height="329"align="left"/>
+    <img src="files/screenshots/second.jpg" alt="second" width="140" height="172"align="center"/>
+    <img src="files/screenshots/third.jpg" alt="third" width="200" height="329" align="right"/>
+</p>
