@@ -19,9 +19,10 @@ class Insta:
         return f"{self.__class__.__name__!r}({self.__dict__!r})"
 
     def login(self):
+        # First open instagram
         self.driver.get("https://www.instagram.com/")
-
         time.sleep(random.randint(2, 5))
+        # enter username and password to log in to Instagram
         user_name = self.driver.find_element_by_xpath("//input"
                                                       "[@name='username']")
         user_name.send_keys(self.username)
@@ -29,31 +30,33 @@ class Insta:
         pass_word = self.driver.find_element_by_xpath("//input"
                                                       "[@name='password']")
         pass_word.send_keys(self.password + Keys.ENTER)
-        time.sleep(random.randint(5, 6))
-        # pyautogui.hotkey("win", "d") # for minimize chorm
-        # Ask for sms verification(if enable the sms verification)
-        # if self.verification == "y":
-        #     self._verification_code()
+        # ask for sms verification(if you don't activate sms verification)
         if self.verification == "n":
+            # it's now logged in to your account
+            time.sleep(random.randint(5, 6))
             self._save_pass()
             time.sleep(random.randint(2, 3))
+            # open desired page
             self.driver.get(f"https://www.instagram.com/{self.desired_page}/")
             time.sleep(random.randint(2, 3))
 
-    def _verification_code(self):
+    def verification_code(self):
         # For those who have enable sms verification from setting
-        # sms = input("\n-SMS Verification Code(please check your phone) = ")
+        time.sleep(random.randint(3, 5))
         with open("smscode.txt", "r") as f:
             sms = f.read()
-        smsf = self.driver.find_element_by_xpath("//input"
-                                                 "[@name='verificationCode']")
-        smsf.send_keys(sms)
+        # enter sms verification code
+        sms_code = self.driver.find_element_by_xpath("//input"
+                                                     "[@name="
+                                                     "'verificationCode']")
+        sms_code.send_keys(sms)
         time.sleep(random.randint(2, 3))
+        # click on Confirm button
         self.driver.find_element_by_xpath("//button[@type='button']").click()
-        #
-        #edame tabe ghabl
+        # it's now logged in to your account
         self._save_pass()
         time.sleep(random.randint(2, 3))
+        # open desired page
         self.driver.get(f"https://www.instagram.com/{self.desired_page}/")
         time.sleep(random.randint(2, 3))
 
@@ -65,9 +68,9 @@ class Insta:
 
     def find(self):
         # This part find who unfollowed you
-        print("\n\n-Please wait a moment...\n")
         following = self._following_section()
         followers = self._followers_section()
+        # now we know who unfollowed you
         not_following_back = [user_id for user_id in following if user_id \
                               not in followers]
         return not_following_back
@@ -96,16 +99,15 @@ class Insta:
         time.sleep(random.randint(5, 7))
         self._scroll_down(scroll_box)
         time.sleep(random.randint(3, 5))
-        print("\n\n-Please wait a moment...\n")
+        # received Page' id in following or followers box
         names = self._separate_names(scroll_box)
         time.sleep(2)
-        # Close scrol box
-        # self.driver.find_element_by_xpath("//button[@type='button']").click()
+        # close scrol box
         pyautogui.press('esc')
         return names
 
     def _scroll_down(self, scroll_box):
-        # Scrol down
+        # Scrol down in following or followers box
         last_ht, ht = 0, 1
         while last_ht != ht:
             last_ht = ht
@@ -119,6 +121,7 @@ class Insta:
         # This part shows those who unfollowed your page
         links = scroll_box.find_elements_by_tag_name("a")
         time.sleep(random.randint(2, 3))
+        # seperate names
         names = [name.text for name in links if name.text != '']
         return names
 

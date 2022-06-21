@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk
 from gui_tkinter import FirstScreen
 
 
@@ -8,6 +8,6 @@ if __name__ == "__main__":
     first_screen = FirstScreen(root)
     first_screen.add_logo()
     first_screen.add_image()
-    first_screen.information()
+    first_screen.description()
 
     root.mainloop()
