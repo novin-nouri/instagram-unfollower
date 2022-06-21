@@ -18,10 +18,11 @@ This app shows you the people's id who you have followed in instagram but they h
 - `pip install pyautogui`
 
 ### How to use it
-1. execute `python main.py` in cmd
+1. execute `python main.py` in cmd.
 2. enter username and password and ... 
 3. if you're enable the **sms verification** for your instagram, instagram send code for your phone and type it in second screen, **don't** type it in your browser.
-4. and wait for the third screen that contains the id to come to you .
+4. after sms verification, click on the browser that opened.
+5. and wait for the third screen that contains the id to come to you.
 
 ### Screenshot
 <p align="center">
