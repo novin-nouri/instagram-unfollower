@@ -14,20 +14,27 @@ class FirstScreen:
         self.master.title("Instagram unfollower")
         self.master.geometry("375x580")
         self.master.resizable(False, False)
-        # To make a window stay in front of others
         self.master.attributes('-topmost', 'true')
+        """Initializes a FirstScreen
+
+        Args:
+            master: In order to create a tkinter application, we generally 
+                create an instance of tkinter frame,It helps to display the 
+                root window and manages all the other components of the 
+                tkinter application.
+        """
 
     def __repr__(self):
         return f"{self.__class__.__name__!r}({self.__dict__!r})"
 
     def add_logo(self):
-        # Add logo for our app
+        """Add logo for our app"""
         logo = PhotoImage(file="files/icon.png")
         self.master.iconphoto(False, logo)
 
     @staticmethod
     def add_image():
-        # Add image in main screen
+        """Add image in main screen"""
         image = Image.open("files/with_white.png")
         img = ImageTk.PhotoImage(image)
         label1 = Label(image=img)
@@ -35,8 +42,8 @@ class FirstScreen:
         label1.pack(pady=15)
 
     def description(self):
-        # Add description and user information label
-        # seperate line
+        """Add description and user information label"""
+        # Seperate line
         seperate_text = "." * 87
         seperate_line2 = ttk.Label(self.master,
                                    text=seperate_text,
@@ -54,7 +61,7 @@ class FirstScreen:
         self._information_label()
 
     def _information_label(self):
-        # Add username, password, desired page label
+        """Add username, password, desired page label"""
         label_name = ttk.Label(self.master, text="username:")
         label_name.place(x=11, y=256)
         label_pass = ttk.Label(self.master, text="password:")
@@ -64,23 +71,23 @@ class FirstScreen:
         self._information_entry()
 
     def _information_entry(self):
-        # Add entry box for username, passwor,... label
+        """Add entry box for username, passwor,... label"""
         self.entry_user = ttk.Entry(self.master, width=34)
         self.entry_user.place(x=14, y=287)
         self.entry_pass = ttk.Entry(self.master, width=34, show="*")
         self.entry_pass.place(x=14, y=353)
         self.entry_desired = ttk.Entry(self.master, width=34)
         self.entry_desired.place(x=14, y=419)
-        # this is radio button for ask about sms verification
+        # This is radio button for ask about sms verification
         self._sms_verification_code()
         self._confirm_button()
 
     def _sms_verification_code(self):
-        # This is radio button for ask about sms verification
+        """This is radio button for ask about sms verification"""
         label_sms_text = "did you enable verification Code ?"
         label_sms = ttk.Label(self.master, text=label_sms_text)
         label_sms.place(x=13, y=457)
-        # create radio button
+        # Create radio button
         self.stringvar = StringVar()
         self.radio1 = ttk.Radiobutton(self.master,
                                       text="Yes",
@@ -94,16 +101,16 @@ class FirstScreen:
         self.radio2.place(x=69, y=488)
 
     def _confirm_button(self):
-        # Add confirm button
+        """Add confirm button"""
         confirm = ttk.Button(self.master,
                              text="Confirm",
                              command=self._confirm_command)
         confirm.place(x=120, y=527)
 
     def _confirm_command(self):
-        # When click on confirm button these codes are executed
+        """When click on confirm button these codes are executed"""
         self._waiting_label()
-        # take user input include:uername, password and ...
+        # Take user input include:uername, password and ...
         get_user = self.entry_user.get()
         get_pass = self.entry_pass.get()
         get_desired = self.entry_desired.get()
@@ -116,8 +123,8 @@ class FirstScreen:
         self.insta(get_list)
 
     def _waiting_label(self):
-        # Convert confirm button to waiting label
-        # first we fill the confirm button with empty label
+        """Convert confirm button to waiting label"""
+        # First we fill the confirm button with empty label
         empty_label = ttk.Label(self.master,
                                 text=" " * 30,
                                 font=("Arial", 15),
@@ -132,12 +139,12 @@ class FirstScreen:
         self.master.update()
 
     def insta(self, input_list):
-        # Now we initialize Insta class with user inputs from main screen
+        """Now we initialize Insta class with user inputs from main screen"""
         insta = Insta(username=input_list[0],
                       password=input_list[1],
                       desired_page=input_list[2],
                       verification=input_list[3])
-        # login with user input
+        # Login with user input
         insta.login()
         # about activate sms verification code
         if insta.verification == "y":
@@ -154,8 +161,8 @@ class FirstScreen:
         self._finish_label()
 
     def _finish_label(self):
-        # Convert waiting label to finish label
-        # first we fill the waiting label with empty label
+        """Convert waiting label to finish label"""
+        # First we fill the waiting label with empty label
         finish = ttk.Label(self.master,
                            text=" " * 30,
                            font=("Arial", 15),
@@ -180,12 +187,21 @@ class SecondScreen(FirstScreen):
         self.insta = insta
         self.toplevel.geometry("270x295")
         self.toplevel.attributes('-topmost', 'true')
+        """Initializes a SecondScreen
+
+        Args:
+            master: In order to create a tkinter application, we generally 
+                create an instance of tkinter frame,It helps to display the root 
+                window and manages all the other components of the tkinter
+                application.
+            insta: Class to find who unfollowed you(from instagram.py)
+        """
 
     def screen(self):
-        # Add logo and image and entry code box for second screen
+        """Add logo and image and entry code box for second screen"""
         self._add_logo2()
         self._lock_image()
-        # add label for take sms code
+        # Add label for take sms code
         text = "Enter the code they sent\n" + 7 * " " + "to your number"
         ttk.Label(self.toplevel, text=text).pack(pady=0)
         # add entry box for take sms code
@@ -198,12 +214,12 @@ class SecondScreen(FirstScreen):
         confirm_code_button.pack(pady=10)
 
     def _add_logo2(self):
-        # Add logo for second screen
+        """Add logo for second screen"""
         logo = PhotoImage(file="files/icon.png")
         self.toplevel.iconphoto(False, logo)
 
     def _lock_image(self):
-        # Add lock image for second screen
+        """Add lock image for second screen"""
         image = Image.open("files/sms.png")
         img = ImageTk.PhotoImage(image)
         label1 = Label(self.toplevel, image=img)
@@ -211,7 +227,7 @@ class SecondScreen(FirstScreen):
         label1.pack(pady=20)
 
     def _get_code(self):
-        # When click on confirm button these codes are executed
+        """When click on confirm button these codes are executed"""
         get_sms_code = self.entry_code.get()
         # Save code in text file
         with open("smscode.txt", "w") as f:
@@ -227,7 +243,6 @@ class SecondScreen(FirstScreen):
         third_screen.show_id(find_list)
 
 
-
 class ThirdScreen(FirstScreen):
     """Class to  shows those who unfollowed your page"""
 
@@ -236,9 +251,17 @@ class ThirdScreen(FirstScreen):
         self.toplevel2 = Toplevel(master)
         self.toplevel2.geometry("375x580")
         self.toplevel2.attributes('-topmost', 'true')
+        """Initializes a ThirdScreen
+
+        Args:
+            master: In order to create a tkinter application, we generally 
+                create an instance of tkinter frame,It helps to display the 
+                root window and manages all the other components of the 
+                tkinter application.
+        """
 
     def screen(self):
-        # Add logo and label for third screen
+        """Add logo and label for third screen"""
         self._add_logo3()
         # Add label
         text = f"These people didn't follow desired page:"
@@ -246,12 +269,12 @@ class ThirdScreen(FirstScreen):
         top_label.place(x=11, y=15)
 
     def _add_logo3(self):
-        # Add logo for third screen
+        """Add logo for third screen"""
         logo = PhotoImage(file="files/icon.png")
         self.toplevel2.iconphoto(False, logo)
 
     def show_id(self, find_unfollowed):
-        # create scrollbar and show page's id
+        """create scrollbar and show page's id"""
         scroll_bar_ = Scrollbar(self.toplevel2)
         text_box = Text(self.toplevel2,
                         height=23,
